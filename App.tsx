@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 30, color: "red", fontWeight: "bold" }}>
+      <Text style={{ fontSize: 24, color: "red", fontWeight: "bold" }}>
         App Connected!
       </Text>
       <StatusBar style="auto" />
