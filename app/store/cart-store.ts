@@ -60,7 +60,22 @@ export const useSCartStore = create<CartState>((set, get) => ({
         ),
       };
     }),
-  decrementItem: () => null,
-  getTotalPrice: () => "",
-  getItemCount: () => 0,
+  decrementItem: (id: number) =>
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      ),
+    })),
+  getTotalPrice: () => {
+    const { items } = get();
+    return items
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
+  },
+  getItemCount: () => {
+    const { items } = get();
+    return items.reduce((count, item) => count + item.quantity, 0);
+  },
 }));
