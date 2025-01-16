@@ -1,5 +1,5 @@
 import { Redirect, Stack, useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { ORDERS } from "../../../assets/orders";
 
 const OrderDetails = () => {
@@ -16,7 +16,21 @@ const OrderDetails = () => {
         <Text style={styles.statusText}>{order.status}</Text>
       </View>
       <Text style={styles.date}>{order.date}</Text>
-      <Text style={styles.itemPrice}>Price: Itemss Ordered!</Text>
+      <Text style={styles.itemsTitle}>Items Ordered:</Text>
+
+      <FlatList
+        data={order.items}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.orderItem}>
+            <Image source={item.heroImage} style={styles.heroImage} />
+            <View style={styles.itemInfo}>
+              <Text style={styles.itemName}>{item.title}</Text>
+              <Text style={styles.itemPrice}>Price: ${item.price}</Text>
+            </View>
+          </View>
+        )}
+      />
     </View>
   );
 };
