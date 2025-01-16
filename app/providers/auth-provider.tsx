@@ -1,30 +1,34 @@
 import { Session } from "@supabase/supabase-js";
-import { PropsWithChildren, createContext, useEffect, useState } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { supabase } from "../lib/supabase";
+type AuthData = {
+  session: Session | null;
+  user: any;
+  mounting: boolean;
+};
+
+export const AuthContext = createContext<AuthData>({
+  session: null,
+  user: null,
+  mounting: true,
+});
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState(null);
   const [mounting, setMounting] = useState(true);
 
-  type AuthData = {
-    session: Session | null;
-    user: any;
-    mounting: boolean;
-  };
-
-  const AuthContext = createContext<AuthData>({
-    session: null,
-    mounting: true,
-    user: null,
-  });
-
   useEffect(() => {
     const fetchSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
       setSession(session);
 
       if (session) {
@@ -49,5 +53,11 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
-  return <AuthContext.Provider>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ session, user, mounting }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
+
+export const useAuth = () => useContext(AuthContext);

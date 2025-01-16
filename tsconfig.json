@@ -1,6 +1,18 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "jsx": "react-jsx", // Enables JSX parsing (for React 17+ with JSX transform)
+    "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+    "moduleResolution": "node", // Resolves modules in node_modules
+    "skipLibCheck": true, // Skips type checks for dependencies to avoid errors
+    "baseUrl": "./", // Ensures relative imports work correctly
+    "paths": {
+      // Optional, for cleaner imports
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true // Allows importing JSON files
+  },
+  "include": ["**/*.ts", "**/*.tsx"], // Includes all TypeScript and TSX files
+  "exclude": ["node_modules", "dist", "build"] // Excludes unnecessary folders
 }
