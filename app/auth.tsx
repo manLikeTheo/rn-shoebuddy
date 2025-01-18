@@ -9,9 +9,10 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { supabase } from "./lib/supabase";
 import { Toast } from "react-native-toast-notifications";
+import { useAuth } from "./providers/auth-provider";
 
 const authSchema = zod.object({
   email: zod.string().email({ message: "Invalid email" }),
@@ -21,6 +22,10 @@ const authSchema = zod.object({
 });
 
 export default function Auth() {
+  const { session } = useAuth();
+
+  if (session) return <Redirect href="/" />;
+
   const { control, handleSubmit, formState } = useForm({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -117,7 +122,7 @@ export default function Auth() {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSubmit(signIn)}>
-          <Text style={styles.buttonText}>SignIn</Text>
+          <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleSubmit(signIn)}>
           <Text

@@ -31,19 +31,19 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       } = await supabase.auth.getSession();
       setSession(session);
 
-      if (session) {
-        const { data: user, error } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
+      // if (session) {
+      //   const { data: user, error } = await supabase
+      //     .from("users")
+      //     .select("*")
+      //     .eq("id", session.user.id)
+      //     .single();
 
-        if (error) {
-          console.error("error", error);
-        } else {
-          setUser(user);
-        }
-      }
+      //   if (error) {
+      //     console.error("error", error);
+      //   } else {
+      //     setUser(user);
+      //   }
+      // }
       setMounting(false);
     };
 
